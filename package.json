@@ -1,0 +1,9 @@
+{
+  "name": "flamebox",
+  "author": "TNTSuperMan",
+  "module": "src/index.ts",
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "type": "module"
+}
