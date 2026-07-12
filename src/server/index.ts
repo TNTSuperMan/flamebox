@@ -1,5 +1,5 @@
-import { flameroutesToMap, type MappedFlameRoutes } from "./map";
-import type { FlameRoute, FlameRoutes } from "./types";
+import { flameroutesToMap } from "./map";
+import type { FlameRoutes } from "./types";
 
 export type FlameFetch<R extends FlameRoutes> = (req: Request) => Promise<Response>;
 
@@ -13,17 +13,10 @@ export const flame = <T extends FlameRoutes>(routes: T): FlameFetch<T> => {
         if (req_json === undefined) {
             return r404();
         }
-        let curr_route: MappedFlameRoutes | FlameRoute<any, any> = routes_map;
-        for (const r of new URL(req.url).pathname.slice(1).split("/")) {
-            if (typeof curr_route === "object") {
-                curr_route = curr_route.get(r)!;
-                if (!curr_route) {
-                    return r404();
-                }
-            }
-        }
-        return typeof curr_route === "object"
-            ? r404()
-            : new Response(JSON.stringify(await curr_route(req_json)))
+        const { pathname } = new URL(req.url);
+        const route = routes_map.get(pathname);
+        return route
+            ? new Response(JSON.stringify(await route(req_json)))
+            : r404();
     }
 }
