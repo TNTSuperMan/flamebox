@@ -1,8 +1,13 @@
+import z from "zod";
 import { flame as flameC } from "./client";
+import { validate } from "./middleware/validate";
 import { flame as flameS } from "./server";
 
 const fetch = flameS({
-    async login({ username, password }: { username: string, password: string }) {
+    login: validate(z.object({
+        username: z.string(),
+        password: z.string(),
+    }), async ({ username, password }): Promise<{ type: "success", token: string } | { type: "failed" }> => {
         if (username === "tnt" && password === "tntn7095110") {
             return {
                 type: "success",
@@ -13,7 +18,7 @@ const fetch = flameS({
                 type: "failed",
             } as const;
         }
-    }
+    }),
 });
 
 //@ts-ignore

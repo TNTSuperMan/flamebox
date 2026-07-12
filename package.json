@@ -5,5 +5,8 @@
   "peerDependencies": {
     "typescript": "^5"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "zod": "^4.4.3"
+  }
 }
