@@ -2,6 +2,7 @@ import z from "zod";
 import { flame as flameC } from "./client";
 import { validate } from "./middleware/validate";
 import { flame as flameS } from "./server";
+import { defaultHandler } from "./server/error";
 
 const fetch = flameS({
     login: validate(z.object({
@@ -19,6 +20,11 @@ const fetch = flameS({
             } as const;
         }
     }),
+}, async (payload, req) => {
+    if (payload.type === "Error" && payload.error instanceof z.ZodError) {
+        return new Response(null, { status: 400 });
+    }
+    return await defaultHandler(payload, req);
 });
 
 //@ts-ignore
