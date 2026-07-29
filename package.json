@@ -1,18 +1,20 @@
 {
   "name": "flamebox",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "TNTSuperMan",
-  "module": "src/index.ts",
+  "module": "src/server/index.ts",
   "peerDependencies": {
     "typescript": "^5"
   },
   "type": "module",
   "exports": {
     "./client": {
-      "types": "./src/client/index.ts"
+      "types": "./src/client/index.ts",
+      "default": "./dist/client.js"
     },
     "./server": {
-      "types": "./src/server/index.ts"
+      "types": "./src/server/index.ts",
+      "default": "./dist/server.js"
     }
   },
   "scripts": {
