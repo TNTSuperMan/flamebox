@@ -3,5 +3,5 @@ export type JSONData = null | string | number | boolean | JSONData[] | { [key: s
 export type FlameRoute<Req extends JSONData, Res extends JSONData> = (req: Req) => Promise<Res>;
 
 export type FlameRoutes = {
-    [key: string]: FlameRoutes | FlameRoute<any, any>
+  [key: string]: FlameRoutes | FlameRoute<any, any>
 };
