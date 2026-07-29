@@ -1,9 +1,23 @@
 {
   "name": "flamebox",
+  "version": "0.0.1",
   "author": "TNTSuperMan",
   "module": "src/index.ts",
   "peerDependencies": {
     "typescript": "^5"
   },
-  "type": "module"
+  "type": "module",
+  "exports": {
+    "./client": {
+      "types": "./src/client/index.ts"
+    },
+    "./server": {
+      "types": "./src/server/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "bun build:client && bun build:server",
+    "build:client": "bun build src/client/index.ts --production --outfile=dist/client.js",
+    "build:server": "bun build src/server/index.ts --production --outfile=dist/server.js"
+  }
 }
