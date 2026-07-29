@@ -27,7 +27,7 @@ export const flame = <T extends FlameRoutes>(routes: T): FlameFetch<T> => {
     }
     const handler = routes_map.get(new URL(req.url).pathname);
     return handler
-      ? new Response(JSON.stringify(await handler(req_json)))
+      ? Response.json(await handler(req_json))
       : r404();
   }
 }
