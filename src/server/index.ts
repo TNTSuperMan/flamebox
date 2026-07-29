@@ -1,4 +1,10 @@
-import type { FlameRoute, FlameRoutes } from "./types";
+type JSONData = null | string | number | boolean | JSONData[] | { [key: string]: JSONData };
+
+type FlameRoute<Req extends JSONData, Res extends JSONData> = (req: Req) => Promise<Res>;
+
+type FlameRoutes = {
+  [key: string]: FlameRoutes | FlameRoute<any, any>
+};
 
 export type FlameFetch<R extends FlameRoutes> = (req: Request) => Promise<Response>;
 
