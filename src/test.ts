@@ -17,7 +17,7 @@ const fetch = flameS({
 });
 
 //@ts-ignore
-Bun.serve({ fetch, port: 3000 })
+using _server = Bun.serve({ fetch, port: 3000 })
 
 const client = flameC<typeof fetch>("http://localhost:3000");
 
