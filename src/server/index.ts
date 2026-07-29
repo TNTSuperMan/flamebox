@@ -2,8 +2,6 @@ import type { FlameRoute, FlameRoutes } from "./types";
 
 export type FlameFetch<R extends FlameRoutes> = (req: Request) => Promise<Response>;
 
-const r404 = () => new Response(null, { status: 404 });
-
 export const flame = <T extends FlameRoutes>(routes: T): FlameFetch<T> => {
   const routes_map = new Map<string, FlameRoute<any, any>>;
 
@@ -21,13 +19,16 @@ export const flame = <T extends FlameRoutes>(routes: T): FlameFetch<T> => {
   visit(routes, "");
 
   return async req => {
-    const req_json = await req.json().catch(() => undefined);
-    if (req_json === undefined) {
-      return r404();
+    try {
+      return Response.json(
+        await routes_map.get(
+          new URL(req.url).pathname
+        )!(
+          await req.json()
+        )
+      );
+    } catch {
+      return Response.error();
     }
-    const handler = routes_map.get(new URL(req.url).pathname);
-    return handler
-      ? Response.json(await handler(req_json))
-      : r404();
   }
 }
