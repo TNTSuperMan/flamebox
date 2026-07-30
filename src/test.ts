@@ -7,11 +7,11 @@ const fetch = flameS({
       return {
         type: "success",
         token: crypto.randomUUID(),
-      } as const;
+      };
     } else {
       return {
         type: "failed",
-      } as const;
+      };
     }
   }
 });
